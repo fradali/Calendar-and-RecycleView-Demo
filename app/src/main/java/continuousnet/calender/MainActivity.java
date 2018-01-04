@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
-import com.prolificinteractive.materialcalendarview.CalendarDay;
 
 
 import java.text.SimpleDateFormat;
