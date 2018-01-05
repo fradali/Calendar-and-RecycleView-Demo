@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        cyclingActivities = new ArrayList<>();
 
         compactCalendarView = (CompactCalendarView) findViewById(R.id.myCalender);
         textView = (TextView) findViewById(R.id.textView);
@@ -37,9 +38,9 @@ public class MainActivity extends AppCompatActivity {
         rv.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(MainActivity.this);
         rv.setLayoutManager(llm);
-        initializeData();
         RVAdapter adapter = new RVAdapter(cyclingActivities);
         rv.setAdapter(adapter);
+
 
         textView.setText(dateFormatForMonth.format(compactCalendarView.getFirstDayOfCurrentMonth()));
 
@@ -47,7 +48,8 @@ public class MainActivity extends AppCompatActivity {
         compactCalendarView.setUseThreeLetterAbbreviation(true);
         Event ev1 = new Event(R.color.colorAccent, 1517184000000L, "Some extra data that I want to store.");
         compactCalendarView.addEvent(ev1, true);
-
+        Event ev2 = new Event(R.color.colorAccent, 1516838400000L, "Some extra data that I want to store.");
+        compactCalendarView.addEvent(ev2, true);
         // define a listener to receive callbacks when certain events happen.
         compactCalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
@@ -57,7 +59,16 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("myDay: ", myDay.toString());
                 if(dateClicked.equals(myDay)){
                     Toast.makeText(MainActivity.this, "My birthdate",Toast.LENGTH_LONG).show();
-
+                    initializeData();
+                    RVAdapter adapter = new RVAdapter(cyclingActivities);
+                    rv.setAdapter(adapter);
+                }
+                Date mySecDay = new Date(1516838400000L);
+                if(dateClicked.equals(mySecDay)){
+                    Toast.makeText(MainActivity.this, "Test",Toast.LENGTH_LONG).show();
+                    initializeArray();
+                    RVAdapter adapter = new RVAdapter(cyclingActivities);
+                    rv.setAdapter(adapter);
                 }
             }
 
@@ -75,9 +86,18 @@ public class MainActivity extends AppCompatActivity {
 // Checkout the project associated with this tutorial on Github if
 // you want to use the same images.
     private void initializeData(){
-        cyclingActivities = new ArrayList<>();
+        //cyclingActivities = new ArrayList<>();
+        cyclingActivities.clear();
         cyclingActivities.add(new CyclingActivity("12:30-14:00", "Activity 1", 1));
         cyclingActivities.add(new CyclingActivity("14:30-15:00", "Activity 2", 2));
         cyclingActivities.add(new CyclingActivity("15:30-15:40", "Activity 3", 3));
+    }
+
+    private void initializeArray(){
+        //cyclingActivities = new ArrayList<>();
+        cyclingActivities.clear();
+        cyclingActivities.add(new CyclingActivity("11:30-12:00", "Activity 1", 1));
+        cyclingActivities.add(new CyclingActivity("15:30-15:40", "Activity 2", 2));
+
     }
 }
