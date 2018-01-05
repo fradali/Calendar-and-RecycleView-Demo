@@ -1,5 +1,7 @@
 package continuousnet.calender;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,12 +17,13 @@ import java.util.List;
  * Created by thedarkslayer on 1/4/18.
  */
 
-public class RVAdapter extends RecyclerView.Adapter<RVAdapter.CyclingViewHolder>{
-
+public class CyclingActivitiesAdapter extends RecyclerView.Adapter<CyclingActivitiesAdapter.CyclingViewHolder> {
+    Context context;
     List<CyclingActivity> cyclingActivities;
 
-    RVAdapter(List<CyclingActivity> cyclingActivities){
+    CyclingActivitiesAdapter(List<CyclingActivity> cyclingActivities) {
         this.cyclingActivities = cyclingActivities;
+
     }
 
 
@@ -33,9 +36,24 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.CyclingViewHolder>
 
     @Override
     public void onBindViewHolder(CyclingViewHolder holder, int position) {
+        context = holder.itemView.getContext();
         holder.timeActivity.setText(cyclingActivities.get(position).timeActivity);
         holder.nameActivity.setText(cyclingActivities.get(position).nameActivity);
-       // holder.idActivity.setT(persons.get(i).photoId);
+        // holder.idActivity.setT(persons.get(i).photoId);
+
+        holder.itemView.findViewById(R.id.button_activity).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Toast.makeText(holder.itemView.getContext(), "Button " + position, Toast.LENGTH_LONG).show();
+                if(position == 0){
+                    Intent intent = new Intent(context, HistoryActivity.class);
+                    context.startActivity(intent);
+                } else {
+                    Intent intent = new Intent(context, SettingsActivity.class);
+                    context.startActivity(intent);
+                }
+            }
+        });
     }
 
     @Override
@@ -48,7 +66,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.CyclingViewHolder>
         return cyclingActivities.size();
     }
 
-    public static class CyclingViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public static class CyclingViewHolder extends RecyclerView.ViewHolder {
         CardView cv;
         TextView timeActivity;
         Button nameActivity;
@@ -56,18 +74,12 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.CyclingViewHolder>
 
         CyclingViewHolder(View itemView) {
             super(itemView);
-            cv = (CardView)itemView.findViewById(R.id.cv);
-            timeActivity = (TextView)itemView.findViewById(R.id.time);
-            nameActivity = (Button)itemView.findViewById(R.id.button_activity);
-            idActivity = (TextView)itemView.findViewById(R.id.share);
+            cv = (CardView) itemView.findViewById(R.id.cv);
+            timeActivity = (TextView) itemView.findViewById(R.id.time);
+            nameActivity = (Button) itemView.findViewById(R.id.button_activity);
+            idActivity = (TextView) itemView.findViewById(R.id.share);
         }
 
-        @Override
-        public void onClick(View v) {
-            if (v.getId() == nameActivity.getId()) {
-                Toast.makeText(v.getContext(), "BUTTON PRESSED = " + String.valueOf(getAdapterPosition()), Toast.LENGTH_SHORT).show();
-            }
-        }
     }
 
 }
